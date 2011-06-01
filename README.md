@@ -25,34 +25,47 @@ Each item in the expression can itself be a conditerator, allowing for nested be
 	
 In the first form the condition is evaluated and if it is not "falsy" (false, zero, the empty string, null, undefined or NaN) then its value is output, otherwise the value of the else expression is output.  Here is an example:
 	
-	$.conditerate("{@ name @}", {name: 'Doug'}) => Doug
-	$.conditerate("{@ name ?: 'Who are you?' @}") => Who are you?
+	$("#hello").conditerate("{@ name @}", {name: 'Doug'}) => Doug
+	$("#hello").conditerate("{@ name ?: 'Who are you?' @}") => Who are you?
 
 The rest of the forms follow the same basic form.  The condition is evaluated and if it not falsy then the loop expression is evaluated once for non-arrays and once per item for arrays.  The prefix and/or suffix expressions are evaluated only once in either case if they exist.  Here are some examples:
 	
 	$.conditerate("{@ user ? 'Welcome {@ name @}!' : 'Please login...' @}", {user: {name: 'Doug', isAdmin: true}})
 	=> Welcome Doug!
 	
+	$.getJSON("http://twitter.com/status/user_timeline/dougmartin.json?count=2&callback=?", function (data) {
+		$("#twitter").conditerate("{@ tweets ? '<ol>' '<li>{@ text @}</li>' '</ol>' @}", {tweets: data});
+	});
+	=>
+	<div id="twitter">
+		<ol>
+			<li>First tweet here...</li>
+			<li>And the second tweet here...</li>
+		</li>
+	</div>
+
 	var vars = {
 		errors: [
 			"Invalid birthdate entered",
 			"Please check that you accept the terms of use"
 		]
 	};
-	$.conditerate("{@ errors ? '<table class=\"error\">' '<tr><td class=\"{@ $odd ? \'odd\' : \'even\' @}\">{@ $ @}</td></tr>' '</table>' @}", vars) 
+	$("#top").conditerate("{@ errors ? '<table class=\"error\">' '<tr><td class=\"{@ $odd ? \'odd\' : \'even\' @}\">{@ $ @}</td></tr>' '</table>' @}", vars) 
 	=> 
-	<table class='error'>
-		<tr>
-			<td class="odd">Invalid birthdate entered</td>
-		</tr>
-		<tr>
-			<td class="even">Please check that you accept the terms of use</td>
-		</tr>
-	</table>
+	<div id="top">
+		<table class='error'>
+			<tr>
+				<td class="odd">Invalid birthdate entered</td>
+			</tr>
+			<tr>
+				<td class="even">Please check that you accept the terms of use</td>
+			</tr>
+		</table>
+	</div>
 	
 	NOTE: the above can also been done using the $class special variable:
 	
-	$.conditerate("{@ errors ? '<table class=\"error\">' '<tr><td class=\"{@ $class @}\">{@ $ @}</td></tr>' '</table>' @}", vars) 
+	$("#top").conditerate("{@ errors ? '<table class=\"error\">' '<tr><td class=\"{@ $class @}\">{@ $ @}</td></tr>' '</table>' @}", vars) 
 	
 	var vars = {
 		users: [
@@ -70,14 +83,16 @@ The rest of the forms follow the same basic form.  The condition is evaluated an
 			},
 		]
 	};
-	$.conditerate("{@ users ? '<ol>' '<li>{@ name @}{@ isAdmin ? \" (admin)\" @}</li>' '</ol>' @}", vars) 
+	$("#userlist").conditerate("{@ users ? '<ol>' '<li>{@ name @}{@ isAdmin ? \" (admin)\" @}</li>' '</ol>' @}", vars) 
 	=> 
-	<ol>
-		<li>Doug (admin)</li>
-		<li>Jeff</li>
-		<li>Greg (admin)</li>
-	</ol>
-
+	<div id="userlist">
+		<ol>
+			<li>Doug (admin)</li>
+			<li>Jeff</li>
+			<li>Greg (admin)</li>
+		</ol>
+	</div>
+	
 Special Loop Variables
 ----------------------
 

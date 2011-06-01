@@ -25,7 +25,11 @@
 			};
 			$("#results4").conditerate("{@ errors ? '<table class=\"error\">' '<tr><td class=\"{@ $odd ? \'odd\' : \'even\' @}\">{@ $ @}</td></tr>' '</table>' @}", vars);
 			
-			$("#cache").html($.conditerateInternals.dumpCache());
+			$.getJSON("http://twitter.com/status/user_timeline/dougmartin.json?count=3&callback=?", function (data) {
+				$("#twitter").conditerate("{@ items ? '<ol>' '<li>{@ text @}</li>' '</ol>' @}", {items: data});
+				$("#cache").html($.conditerateInternals.dumpCache());
+			});
+			
 		});
 	</script>
 </head>
@@ -43,6 +47,9 @@
 	
 	<p>Fourth:</p>
 	<div id="results4"></div>
+	
+	<p>Twitter:</p>
+	<div id="twitter"></div>
 	
 	<p>Cache contents:</p>
 	<div id="cache"></div>
