@@ -30,7 +30,7 @@ In the first form the condition is evaluated and if it is not "falsy" (false, ze
 
 The rest of the forms follow the same basic form.  The condition is evaluated and if it not falsy then the loop expression is evaluated once for non-arrays and once per item for arrays.  The prefix and/or suffix expressions are evaluated only once in either case if they exist.  Here are some examples:
 	
-	$.conditerate("{@ user ? 'Welcome {@ name @}!' : 'Please login...' @}", {user: {name: 'Doug', isAdmin: true}})
+	$("#welcome").conditerate("{@ user ? 'Welcome {@ name @}!' : 'Please login...' @}", {user: {name: 'Doug', isAdmin: true}})
 	=> Welcome Doug!
 	
 	$.getJSON("http://twitter.com/status/user_timeline/dougmartin.json?count=2&callback=?", function (data) {
@@ -44,28 +44,57 @@ The rest of the forms follow the same basic form.  The condition is evaluated an
 		</li>
 	</div>
 
+Special String Delimiters
+-------------------------
+	
+To avoid having to double escape single or double quote string delimiters in the template string there are two extra string delimiters available: the tilde and the backtick.  So within a template these are all valid strings:
+
+	$("#test").conditerate("{@ name ? 'Your name is \\'{@ name @}\\'' @}");
+	$("#test").conditerate('{@ name ? "Your name is \\"{@ name @}\\"" @}');
+	$("#test").conditerate("{@ name ? `Your name is '{@ name @}'` @}");
+	$("#test").conditerate("{@ name ? ~Your name is '{@ name @}'~ @}");
+	
+As you can see the tilde and backtick strings make the template much cleaner.
+
+Special Loop Variables
+----------------------
+
+Each time the loop expression is evaluated a number of special variables are automatically included. Each special variable is prefixed with the dollar sign:
+
+1. $ - value of the loop
+2. $0 - zero-based index of the loop
+3. $1 - one-based index of the loop
+4. $even - true if loop index is even
+5. $odd - true if loop index is odd
+6. $class - "even" if index is even, "odd" if index is odd
+7. $first - true on the first iteration of the loop
+8. $last- true on the last iteration of the loop
+
+More Examples
+-------------
+	
 	var vars = {
 		errors: [
 			"Invalid birthdate entered",
 			"Please check that you accept the terms of use"
 		]
 	};
-	$("#top").conditerate("{@ errors ? '<table class=\"error\">' '<tr><td class=\"{@ $odd ? \'odd\' : \'even\' @}\">{@ $ @}</td></tr>' '</table>' @}", vars) 
+	$("#top").conditerate("{@ errors ? `<table class='error'>` `<tr><td class='{@ $odd ? 'odd' : 'even' @}'>{@ $ @}</td></tr>` '</table>' @}", vars) 
 	=> 
 	<div id="top">
 		<table class='error'>
 			<tr>
-				<td class="odd">Invalid birthdate entered</td>
+				<td class='odd'>Invalid birthdate entered</td>
 			</tr>
 			<tr>
-				<td class="even">Please check that you accept the terms of use</td>
+				<td class='even'>Please check that you accept the terms of use</td>
 			</tr>
 		</table>
 	</div>
 	
 	NOTE: the above can also been done using the $class special variable:
 	
-	$("#top").conditerate("{@ errors ? '<table class=\"error\">' '<tr><td class=\"{@ $class @}\">{@ $ @}</td></tr>' '</table>' @}", vars) 
+	$("#top").conditerate("{@ errors ? `<table class='error'>` `<tr><td class='{@ $class @}'>{@ $ @}</td></tr>` '</table>' @}", vars) 
 	
 	var vars = {
 		users: [
@@ -93,16 +122,3 @@ The rest of the forms follow the same basic form.  The condition is evaluated an
 		</ol>
 	</div>
 	
-Special Loop Variables
-----------------------
-
-Each time the loop expression is evaluated a number of special variables are automatically included. Each special variable is prefixed with the dollar sign:
-
-1. $ - value of the loop
-2. $0 - zero-based index of the loop
-3. $1 - one-based index of the loop
-4. $even - true if loop index is even
-5. $odd - true if loop index is odd
-6. $class - "even" if index is even, "odd" if index is odd
-7. $first - true on the first iteration of the loop
-8. $last- true on the last iteration of the loop

@@ -49,6 +49,21 @@ test("Value or else output", function() {
 	conditerateOutput("{@ foo ?: 'foo not found' @}", "bar", {"foo": "bar"});
 });
 
+test("Tilde strings", function () {
+	conditerateOutput("{@ 'foo' ? ~{@ $1 @} => '{@ $ @}'~ @}", "1 => 'foo'", {});
+});
+
+test("Backtick strings", function () {
+	conditerateOutput("{@ 'foo' ? `{@ $1 @} => '{@ $ @}'` @}", "1 => 'foo'", {});
+});
+
+test("All strings", function () {
+	conditerateOutput("{@ name ? 'Your name is \\'{@ name @}\\'' @}", "", {});
+	conditerateOutput('{@ name ? "Your name is \\"{@ name @}\\"" @}', "", {});
+	conditerateOutput("{@ name ? `Your name is '{@ name @}'` @}", "", {});
+	conditerateOutput("{@ name ? ~Your name is '{@ name @}'~ @}", "", {});
+});
+
 test("User list", function() {
 	conditerateOutput("{@ users ? '<ol>' '<li>{@ name @}</li>' '</ol>' : 'no users found' @}", "<ol><li>doug</li><li>jeff</li></ol>", {"users": [{"name": "doug"}, {"name": "jeff"}]});
 });
@@ -118,7 +133,7 @@ var vars = {
 	]
 };
 test("Escaped single quote in loop", function () {
-	conditerateOutput("{@ users ? '<ol>' '<li>{@ name @}{@ isAdmin ? \" (admin)\" @}</li>' '</ol>' @}", "<ol><li>Doug (admin)</li><li>Jeff</li><li>Greg (admin)</li></ol>", vars);
+	conditerateOutput("{@ users ? '<ol>' `<li>{@ name @}{@ isAdmin ? ' (admin)' @}</li>` '</ol>' @}", "<ol><li>Doug (admin)</li><li>Jeff</li><li>Greg (admin)</li></ol>", vars);
 });
 
 var errors = {
@@ -128,10 +143,10 @@ var errors = {
 	]
 };
 test("Table with escaped vars", function () {
-	//conditerateOutput("{@ errors ? '<table class=\"error\">' '<tr><td class=\"{@ $odd ? \\'odd\\' : \\'even\\' @}\">{$}</td></tr>' '</table>' @}", "", errors);
-	conditerateOutput("{@ errors ? '<table class=\"error\">' '<tr><td>{@ $ @}</td></tr>' '</table>' @}", "<table class=\"error\"><tr><td>Invalid birthdate entered</td></tr><tr><td>Please check that you accept the terms of use</td></tr></table>", errors);
+	conditerateOutput("{@ errors ? `<table class='error'>` `<tr><td class='{@ $odd ? 'odd' : 'even' @}'>{@ $ @}</td></tr>` '</table>' @}", "<table class='error'><tr><td class='even'>Invalid birthdate entered</td></tr><tr><td class='odd'>Please check that you accept the terms of use</td></tr></table>", errors);
 });
 
 test("Even/odd classes", function () {
 	conditerateOutput("{@ range(0, 3) ? ' {@ $class @} ' @}", " even  odd  even  odd ", {});
 });
+

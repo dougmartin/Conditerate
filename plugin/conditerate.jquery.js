@@ -79,6 +79,10 @@
 					break;
 					
 				case "string":
+					if ((node.delimiter == "~") || (node.delimiter == "`")) {
+						node.delimiter = "'";
+						node.contents = node.contents.replace(/'/g, "\\'");
+					}
 					code = [node.delimiter, node.contents, node.delimiter];
 					break;
 					
@@ -367,7 +371,7 @@
 					else if ((ch == "?") && (followingCh == ":")) {
 						advanceToken("?:");
 					}
-					else if ((ch == "'") || (ch == '"')) {
+					else if ((ch == "'") || (ch == '"') || (ch == "~") || (ch == "`")) {
 						delimiter = ch;
 						
 						conditeratorCount = 0;
