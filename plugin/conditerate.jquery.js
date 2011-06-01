@@ -497,7 +497,7 @@
 	// for generated code and direct use
 	//
 	$.conditerator = function(vars, condition, prefix, loop, suffix, forElse) {
-		var i, iterator, iteratorVars, result;
+		var i, iterator, iteratorVars, result, isEven;
 		
 		if (!condition) {
 			return getValue(vars, forElse);
@@ -509,12 +509,14 @@
 		for (i = 0; i < iterator.length; i++) {
 			loopVars = {};
 			
+			isEven = i % 2 == 0;
 			iteratorVars = {
 				"$": iterator[i],
 				"$0": i,
 				"$1": i + 1,
-				"$even": i % 2 == 0,
-				"$odd": i % 2 != 0,
+				"$even": isEven,
+				"$odd": !isEven,
+				"$class": isEven ? "even" : "odd",
 				"$first": i == 0,
 				"$last": i == iterator.length - 1
 			};

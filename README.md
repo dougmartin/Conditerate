@@ -50,6 +50,10 @@ The rest of the forms follow the same basic form.  The condition is evaluated an
 		</tr>
 	</table>
 	
+	NOTE: the above can also been done using the $class special variable:
+	
+	$.conditerate("{@ errors ? '<table class=\"error\">' '<tr><td class=\"{@ $class @}\">{@ $ @}</td></tr>' '</table>' @}", vars) 
+	
 	var vars = {
 		users: [
 			{
@@ -84,5 +88,6 @@ Each time the loop expression is evaluated a number of special variables are aut
 3. $1 - one-based index of the loop
 4. $even - true if loop index is even
 5. $odd - true if loop index is odd
-6. $first - true on the first iteration of the loop
-7. $last- true on the last iteration of the loop
+6. $class - "even" if index is even, "odd" if index is odd
+7. $first - true on the first iteration of the loop
+8. $last- true on the last iteration of the loop
