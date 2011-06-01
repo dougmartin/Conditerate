@@ -41,7 +41,7 @@ The rest of the forms follow the same basic form.  The condition is evaluated an
 		<ol>
 			<li>First tweet here...</li>
 			<li>And the second tweet here...</li>
-		</li>
+		</ol>
 	</div>
 
 Special String Delimiters
