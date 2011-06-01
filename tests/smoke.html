@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<title>Conditerate Smoke Test</title>
+	<script type="text/javascript" src="jquery-1.6.1.min.js"></script>
+	<script type="text/javascript" src="../plugin/conditerate.jquery.js"></script>
+	<script type="text/javascript">
+		$(function () {
+			var data = {
+				"users": [
+					{"name": "Doug"}, 
+					{"name": "Jeff"}, 
+					{"name": "Greg"}
+				]
+			}
+			$(".results").conditerate("{@ users ? '<ol>' '<li>{@ name @}</li>' '</ol>' : 'no users found' @}", data, {appendFunction: true});
+			$("#results3").conditerate("{@ unknown ? '<ol>' '<li>{@ name @}</li>' '</ol>' : 'no users found' @}", data);
+			$("#cache").html($.conditerateInternals.dumpCache());
+		});
+	</script>
+</head>
+<body>
+	<h1>Smoke Test for selector version</h1>
+	
+	<p>First:</p>
+	<div id="results1" class="results"></div>
+	
+	<p>Second:</p>
+	<div id="results2" class="results"></div>
+	
+	<p>Third:</p>
+	<div id="results3" class="results"></div>
+	
+	<p>Cache contents:</p>
+	<div id="cache"></div>
+</body>
+</html>

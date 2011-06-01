@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<title>Conditerate Test Suite (QUnit)</title>
+	<link rel="stylesheet" href="qunit.css" type="text/css" media="screen">
+	<script type="text/javascript" src="jquery-1.6.1.min.js"></script>
+	<script type="text/javascript" src="../plugin/conditerate.jquery.js"></script>
+	<script type="text/javascript" src="qunit.js"></script>
+	<script type="text/javascript">
+		function conditerateOutput(template, output, vars) {
+			var i, result,
+				anonFn = ["function anonymous(vars) {"];
+				
+			if (vars) {
+				equal($.conditerate(template, vars), output, ["Template: ", template, " / Vars: ", vars.toString()].join(""));
+			}
+			else {
+				if (template.indexOf("{@") != -1) {
+					anonFn.push(["vars = vars || {};", output.join("")].join(" "));
+				}
+				else {
+					anonFn.push(output.join(""));
+				}
+				anonFn.push("}");
+				equal($.conditerate(template).toString(), anonFn.join("\n"), ["Template: ", template].join(""));
+			}
+		}
+	</script>
+	<script type="text/javascript" src="parser.js"></script>
+</head>
+<body>
+	<h1 id="qunit-header">Conditerate Test Suite (QUnit)</h1>
+	<h2 id="qunit-banner"></h2>
+	<div id="qunit-testrunner-toolbar"></div>
+	<h2 id="qunit-userAgent"></h2>
+	<ol id="qunit-tests"></ol>
+	<div id="qunit-fixture">test markup</div>
+</body>
+</html>
