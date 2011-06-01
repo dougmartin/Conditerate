@@ -100,3 +100,34 @@ test("Double quoted string with variable", function() {
 test("Escaped single quote", function () {
 	conditerateOutput("\\\\'test\\\\'", "\\'test\\'", {});
 });
+
+var vars = {
+	users: [
+		{
+			name: "Doug",
+			isAdmin: true
+		},
+		{
+			name: "Jeff",
+			isAdmin: false
+		},
+		{
+			name: "Greg",
+			isAdmin: true
+		},
+	]
+};
+test("Escaped single quote in loop", function () {
+	conditerateOutput("{@ users ? '<ol>' '<li>{@ name @}{@ isAdmin ? \" (admin)\" @}</li>' '</ol>' @}", "<ol><li>Doug (admin)</li><li>Jeff</li><li>Greg (admin)</li></ol>", vars);
+});
+
+var errors = {
+	errors: [
+		"Invalid birthdate entered",
+		"Please check that you accept the terms of use"
+	]
+};
+test("Table with escaped vars", function () {
+	//conditerateOutput("{@ errors ? '<table class=\"error\">' '<tr><td class=\"{@ $odd ? \\'odd\\' : \\'even\\' @}\">{$}</td></tr>' '</table>' @}", "", errors);
+	conditerateOutput("{@ errors ? '<table class=\"error\">' '<tr><td>{@ $ @}</td></tr>' '</table>' @}", "", errors);
+});
