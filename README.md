@@ -5,7 +5,7 @@ Conditerate is a jQuery plugin that compiles and executes "conditerator" (condit
 
 The plugin exposes the following functions:
 
-1. $(SELECTOR).conditerate(template, vars)
+1. $(selector).conditerate(template, vars)
 2. $.conditerate(template, vars)
 3. $.conditerator(vars, condition, prefix, loop, suffix, forElse)
 
@@ -66,7 +66,7 @@ The rest of the forms follow the same basic form.  The condition is evaluated an
 			},
 		]
 	};
-	$.conditerate({@ users ? '<ol>' '<li>{@ name @}{@ isAdmin ? " (admin)" @}</li>' '</ol>' @}) 
+	$.conditerate("{@ users ? '<ol>' '<li>{@ name @}{@ isAdmin ? \" (admin)\" @}</li>' '</ol>' @}", vars) 
 	=> 
 	<ol>
 		<li>Doug (admin)</li>
