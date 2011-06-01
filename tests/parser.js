@@ -129,5 +129,5 @@ var errors = {
 };
 test("Table with escaped vars", function () {
 	//conditerateOutput("{@ errors ? '<table class=\"error\">' '<tr><td class=\"{@ $odd ? \\'odd\\' : \\'even\\' @}\">{$}</td></tr>' '</table>' @}", "", errors);
-	conditerateOutput("{@ errors ? '<table class=\"error\">' '<tr><td>{@ $ @}</td></tr>' '</table>' @}", "", errors);
+	conditerateOutput("{@ errors ? '<table class=\"error\">' '<tr><td>{@ $ @}</td></tr>' '</table>' @}", "<table class=\"error\"><tr><td>Invalid birthdate entered</td></tr><tr><td>Please check that you accept the terms of use</td></tr></table>", errors);
 });
