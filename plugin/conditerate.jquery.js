@@ -1,3 +1,10 @@
+/*
+ * Conditerate v1.0
+ *
+ * Copyright 2011, Doug Martin
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+*/
+
 (function($) {
 
 	var templateCache = {};
