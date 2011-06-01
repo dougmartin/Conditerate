@@ -30,7 +30,8 @@ In the first form the condition is evaluated and if it is not "falsy" (false, ze
 
 The rest of the forms follow the same basic form.  The condition is evaluated and if it not falsy then the loop expression is evaluated once for non-arrays and once per item for arrays.  The prefix and/or suffix expressions are evaluated only once in either case if they exist.  Here are some examples:
 	
-	$.conditerate("{@ user ? 'Welcome {@ name @}!' : 'Please login...' @}", {user: {name: 'Doug', isAdmin: true}}) => Welcome Doug!
+	$.conditerate("{@ user ? 'Welcome {@ name @}!' : 'Please login...' @}", {user: {name: 'Doug', isAdmin: true}})
+	=> Welcome Doug!
 	
 	var vars = {
 		errors: [
@@ -38,9 +39,16 @@ The rest of the forms follow the same basic form.  The condition is evaluated an
 			"Please check that you accept the terms of use"
 		]
 	};
-	$.conditerate("{@ errors ? '<table class=\"error\">' '<tr><td class=\"{@ $odd ? \'odd\' : \'even\' @}\">{@ $ @}</td></tr>' '</table>' @}", vars) =>
-	
-	<table class='error'><tr><td class="odd">Invalid birthdate entered</td><td class="even">Please check that you accept the terms of use</td></tr></table>
+	$.conditerate("{@ errors ? '<table class=\"error\">' '<tr><td class=\"{@ $odd ? \'odd\' : \'even\' @}\">{@ $ @}</td></tr>' '</table>' @}", vars) 
+	=> 
+	<table class='error'>
+		<tr>
+			<td class="odd">Invalid birthdate entered</td>
+		</tr>
+		<tr>
+			<td class="even">Please check that you accept the terms of use</td>
+		</tr>
+	</table>
 	
 	var vars = {
 		users: [
@@ -58,7 +66,13 @@ The rest of the forms follow the same basic form.  The condition is evaluated an
 			},
 		]
 	};
-	$.conditerate({@ users ? '<ol>' '<li>{@ name @}{@ isAdmin ? " (admin)" @}</li>' '</ol>' @}) => <ol><li>Doug (admin)</li><li>Jeff</li><li>Greg (admin)</li></ol>
+	$.conditerate({@ users ? '<ol>' '<li>{@ name @}{@ isAdmin ? " (admin)" @}</li>' '</ol>' @}) 
+	=> 
+	<ol>
+		<li>Doug (admin)</li>
+		<li>Jeff</li>
+		<li>Greg (admin)</li>
+	</ol>
 
 Special Loop Variables
 ----------------------
