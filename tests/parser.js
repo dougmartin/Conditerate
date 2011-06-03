@@ -1,47 +1,51 @@
 module("parser")
 
 test("Basic requirements", function() {
-	expect(3);
+	expect(2);
 	ok(jQuery, "jQuery");
 	ok($, "$");
-	equal($.browser.safari, true, "Tests must run under Safari/Chrome (for function string serialization)");
 });
+
+/*
+
+The following tests are not cross-browser safe.  Firefox changes the single quotes to doubles quotes.
 
 test("Empty string code", function() {
 	conditerateOutput("", ["return '';"]);
-});
-
-test("Empty string output", function() {
-	conditerateOutput("", "", {});
-});
-
-test("Single space code", function() {
-	conditerateOutput(" ", ["return ' ';"]);
-});
-
-test("Single space output", function() {
-	conditerateOutput(" ", " ", {});
 });
 
 test("Single variable code", function() {
 	conditerateOutput("{@ foo @}", ["return vars.hasOwnProperty('foo') ? vars['foo'] : '';"]);
 });
 
-test("Single variable output", function() {
-	conditerateOutput("{@ foo @}", "bar", {"foo": "bar"});
+test("Single space code", function() {
+	conditerateOutput(" ", ["return ' ';"]);
 });
 
 test("Check for existance code", function() {
 	conditerateOutput("{@ foo ? 'foo found' @}", ["return $.conditerator(vars, vars.hasOwnProperty('foo') ? vars['foo'] : '', '', 'foo found', '', '');"]);
 });
 
+test("Value or else code", function() {
+	conditerateOutput("{@ foo ?: 'foo not found' @}", ["return $.conditerator(vars, vars.hasOwnProperty('foo') ? vars['foo'] : '', '', vars.hasOwnProperty('foo') ? vars['foo'] : '', '', 'foo not found');"]);
+});
+*/
+
+test("Empty string output", function() {
+	conditerateOutput("", "", {});
+});
+
+test("Single space output", function() {
+	conditerateOutput(" ", " ", {});
+});
+
+test("Single variable output", function() {
+	conditerateOutput("{@ foo @}", "bar", {"foo": "bar"});
+});
+
 test("Check for existance output", function() {
 	conditerateOutput("{@ foo ? 'foo found' @}", "foo found", {"foo": "bar"});
 	conditerateOutput("{@ foo ? 'foo found' @}", "", {});
-});
-
-test("Value or else code", function() {
-	conditerateOutput("{@ foo ?: 'foo not found' @}", ["return $.conditerator(vars, vars.hasOwnProperty('foo') ? vars['foo'] : '', '', vars.hasOwnProperty('foo') ? vars['foo'] : '', '', 'foo not found');"]);
 });
 
 test("Value or else output", function() {
