@@ -31,12 +31,17 @@ In the first form the condition is evaluated and if it is not "falsy" (false, ze
 The rest of the forms follow the same basic form.  The condition is evaluated and if it not falsy then the loop expression is evaluated once for non-arrays and once per item for arrays.  The prefix and/or suffix expressions are evaluated only once in either case if they exist.  Here are some examples:
 	
 	$("#welcome").conditerate("{@ user ? 'Welcome {@ name @}!' : 'Please login...' @}", {user: {name: 'Doug', isAdmin: true}})
+	
 	=> Welcome Doug!
+	
+	----------------------------
 	
 	$.getJSON("http://twitter.com/status/user_timeline/dougmartin.json?count=2&callback=?", function (data) {
 		$("#twitter").conditerate("{@ tweets ? '<ol>' '<li>{@ text @}</li>' '</ol>' @}", {tweets: data});
 	});
+	
 	=>
+	
 	<div id="twitter">
 		<ol>
 			<li>First tweet here...</li>
@@ -79,8 +84,15 @@ More Examples
 			"Please check that you accept the terms of use"
 		]
 	};
+	
 	$("#top").conditerate("{@ errors ? `<table class='error'>` `<tr><td class='{@ $odd ? 'odd' : 'even' @}'>{@ $ @}</td></tr>` '</table>' @}", vars) 
+	
+	*OR*
+	
+	$("#top").conditerate("{@ errors ? `<table class='error'>` `<tr><td class='{@ $class @}'>{@ $ @}</td></tr>` '</table>' @}", vars) 
+	
 	=> 
+	
 	<div id="top">
 		<table class='error'>
 			<tr>
@@ -92,9 +104,7 @@ More Examples
 		</table>
 	</div>
 	
-	NOTE: the above can also been done using the $class special variable:
-	
-	$("#top").conditerate("{@ errors ? `<table class='error'>` `<tr><td class='{@ $class @}'>{@ $ @}</td></tr>` '</table>' @}", vars) 
+	-----------------------
 	
 	var vars = {
 		users: [
@@ -112,8 +122,11 @@ More Examples
 			},
 		]
 	};
+	
 	$("#userlist").conditerate("{@ users ? '<ol>' '<li>{@ name @}{@ isAdmin ? \" (admin)\" @}</li>' '</ol>' @}", vars) 
+	
 	=> 
+	
 	<div id="userlist">
 		<ol>
 			<li>Doug (admin)</li>
